@@ -37,6 +37,9 @@ function init(){
   f.addEventListener('submit',function(e){e.preventDefault();var ok=true;[].forEach.call(f.querySelectorAll('[required]'),function(i){var v=i.type==='checkbox'?(i.checked?'1':''):i.value.trim();var bad=!v;i.setAttribute('aria-invalid',bad);if(bad&&ok){ok=false;i.focus()}});if(!ok)return;msg.hidden=false;f.reset();msg.scrollIntoView({block:'nearest',behavior:'smooth'})});
   var mapa=document.getElementById('mapa');
   document.getElementById('pokaz-mape').addEventListener('click',function(){if(mapa.querySelector('iframe'))return;var i=document.createElement('iframe');i.src=mapa.dataset.src;i.title='Mapa: ul. Skalskiego 8, 42-500 Będzin';i.referrerPolicy='no-referrer-when-downgrade';mapa.appendChild(i)});
+  var lz=[].slice.call(document.querySelectorAll('img[data-src]'));
+  function wczytaj(i){if(!i.dataset.src)return;i.srcset=i.dataset.srcset;i.src=i.dataset.src;i.removeAttribute('data-src')}
+  if('IntersectionObserver' in window){var lio=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){wczytaj(e.target);lio.unobserve(e.target)}})},{rootMargin:'400px 200px'});lz.forEach(function(i){lio.observe(i)})}else lz.forEach(wczytaj);
   var r=document.getElementById('rok');if(r)r.textContent=new Date().getFullYear();
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();

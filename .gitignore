@@ -3,3 +3,4 @@ src.html
 meta.json
 *.part
 __pycache__/
+img/
